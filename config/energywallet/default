@@ -1,0 +1,48 @@
+upstream counterblock_api_server {
+  server 127.0.0.1:4200;
+  keepalive 30;
+}
+upstream counterblock_t_api_server {
+  server 127.0.0.1:14200;
+  keepalive 30;
+}
+
+server {
+  listen 80 default_server deferred;
+  index index.html index.htm;
+  server_name localhost;
+
+  open_file_cache max=200000 inactive=20s;
+  open_file_cache_valid 30s;
+  open_file_cache_min_uses 2;
+  open_file_cache_errors on;
+
+  location /_asset_img/ {
+    access_log off;
+    expires 1h;
+    alias /etc/nginx/asset_img/;
+  }
+
+  location /energywallet.conf.json  {
+    alias /etc/nginx/energywallet.conf.json;
+  }
+  location /  {
+    access_log off;
+    expires 1h;
+    root /var/www/html/build/;
+  }
+
+  location ^~ /_api
+  {
+    limit_except GET POST OPTIONS {
+      deny all;
+    }
+    error_page 404 405 550 = @wsgi_api;
+  }
+
+  location @wsgi_api {
+    include /etc/nginx/counterblock_api.inc;
+    rewrite ^/_api/?$ /api/?  break;
+    proxy_pass   http://counterblock_api_server;
+  }
+}

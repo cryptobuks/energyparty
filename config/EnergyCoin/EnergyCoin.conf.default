@@ -1,0 +1,12 @@
+listen=1
+server=1
+daemon=1
+rpcuser=rpc
+rpcpassword=rpc
+rpcallowip=127.0.0.1
+addnode=34.220.184.50
+addnode=52.10.31.69
+addnode=178.84.26.71
+addnode=83.161.158.205
+addnode=87.98.182.171
+

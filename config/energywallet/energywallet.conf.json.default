@@ -1,0 +1,11 @@
+{
+    "forceTestnet": false,
+    "disabledFeatures": [],
+    "restrictedAreas": {
+        "pages/betting.html": ["US"],
+        "pages/openbets.html": ["US"],
+        "pages/matchedbets.html": ["US"],
+        "dividend": ["US"],
+        "pages/simplebuy.html": ['US']
+    },
+}
